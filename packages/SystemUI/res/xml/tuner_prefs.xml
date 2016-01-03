@@ -27,6 +27,16 @@
             android:key="battery"
             android:title="@string/battery" />
 
+   <com.android.systemui.tuner.TunerSwitch
+            android:key="qs_show_auto_brightness_button"
+            android:title="@string/tuner_show_brightness_mode"
+            sysui:defValue="true" />
+
+  <com.android.systemui.tuner.TunerSwitch
+            android:key="qs_show_brightness_side_buttons"
+            android:title="@string/tuner_show_brightness_side_buttons"
+            sysui:defValue="true" />
+
     <PreferenceScreen
         android:key="volume_and_do_not_disturb"
         android:title="@string/volume_and_do_not_disturb">
