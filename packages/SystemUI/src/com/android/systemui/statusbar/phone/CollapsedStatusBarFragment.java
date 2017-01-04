@@ -29,7 +29,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
-
+import android.content.ContentResolver;
+import android.database.ContentObserver;
+import android.os.Handler;
+import android.os.UserHandle;
+import android.provider.Settings;
 import com.android.systemui.Dependency;
 import com.android.systemui.Interpolators;
 import com.android.systemui.R;
@@ -68,6 +72,30 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     private View mOperatorNameFrame;
     private boolean mIsClockBlacklisted;
 
+    // network traffic
+    private View mNetworkTraffic;
+    private int mShowNetworkTraffic;
+    private final Handler mHandler = new Handler();
+
+    private class SettingsObserver extends ContentObserver {
+       SettingsObserver(Handler handler) {
+           super(handler);
+       }
+
+       void observe() {
+         mContentResolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.NETWORK_TRAFFIC_STATE),
+                    false, this, UserHandle.USER_ALL);
+       }
+
+       @Override
+       public void onChange(boolean selfChange) {
+           updateSettings(true);
+       }
+    }
+    private SettingsObserver mSettingsObserver = new SettingsObserver(mHandler);
+    private ContentResolver mContentResolver;
+
     private SignalCallback mSignalCallback = new SignalCallback() {
         @Override
         public void setIsAirplaneMode(NetworkController.IconState icon) {
@@ -78,12 +106,14 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContentResolver = getContext().getContentResolver();
         mKeyguardMonitor = Dependency.get(KeyguardMonitor.class);
         mNetworkController = Dependency.get(NetworkController.class);
         mStatusBarComponent = SysUiServiceProvider.getComponent(getContext(), StatusBar.class);
 
         Dependency.get(TunerService.class).addTunable(this,
                 StatusBarIconController.ICON_BLACKLIST);
+        mSettingsObserver.observe();
     }
 
     @Override
@@ -105,6 +135,8 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         Dependency.get(StatusBarIconController.class).addIconGroup(mDarkIconManager);
         mSystemIconArea = mStatusBar.findViewById(R.id.system_icon_area);
         mClockView = mStatusBar.findViewById(R.id.clock);
+        mNetworkTraffic = mStatusBar.findViewById(R.id.networkTraffic);
+        updateSettings(false);
         showSystemIconArea(false);
         showClock(false);
         initEmergencyCryptkeeperText();
@@ -239,6 +271,7 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 
     public void showSystemIconArea(boolean animate) {
         animateShow(mSystemIconArea, animate);
+        updateNetworkTraffic(animate);
     }
 
     public void hideClock(boolean animate) {
@@ -277,6 +310,15 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     public void showOperatorName(boolean animate) {
         if (mOperatorNameFrame != null) {
             animateShow(mOperatorNameFrame, animate);
+        }
+    }
+
+
+    public void updateNetworkTraffic(boolean animate) {
+        if (mNetworkTraffic != null) {
+            if (mShowNetworkTraffic != 0) {
+                animateShow(mNetworkTraffic, animate);
+            }
         }
     }
 
@@ -356,4 +398,12 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
             mOperatorNameFrame = stub.inflate();
         }
     }
+
+    public void updateSettings(boolean animate) {
+        mShowNetworkTraffic = Settings.System.getIntForUser(mContentResolver,
+                Settings.System.NETWORK_TRAFFIC_STATE, 0,
+                UserHandle.USER_CURRENT);
+        updateNetworkTraffic(animate);
+    }
+
 }
