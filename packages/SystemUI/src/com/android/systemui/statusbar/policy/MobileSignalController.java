@@ -110,6 +110,8 @@ public class MobileSignalController extends SignalController<
     private boolean mVoLTEicon;
     private boolean mHasNotch;
 
+    private boolean mRoamingIconAllowed;
+
     // TODO: Reduce number of vars passed in, if we have the NetworkController, probably don't
     // need listener lists anymore.
     public MobileSignalController(Context context, Config config, boolean hasMobileData,
@@ -195,6 +197,9 @@ public class MobileSignalController extends SignalController<
            resolver.registerContentObserver(Settings.System.getUriFor(
                    Settings.System.DISPLAY_CUTOUT_HIDDEN),
                   false, this, UserHandle.USER_ALL);
+           resolver.registerContentObserver(Settings.System.getUriFor(
+                   Settings.System.ROAMING_INDICATOR_ICON),
+                  false, this, UserHandle.USER_ALL);
            updateSettings();
         }
 
@@ -214,6 +219,10 @@ public class MobileSignalController extends SignalController<
 
         mVoLTEicon = Settings.System.getIntForUser(resolver,
                 Settings.System.SHOW_VOLTE_ICON, 0,
+                UserHandle.USER_CURRENT) == 1;
+
+        mRoamingIconAllowed = Settings.System.getIntForUser(resolver,
+                Settings.System.ROAMING_INDICATOR_ICON, 1,
                 UserHandle.USER_CURRENT) == 1;
 
         mapIconSets();
@@ -725,7 +734,7 @@ public class MobileSignalController extends SignalController<
                 && (mDataState == TelephonyManager.DATA_CONNECTED
                     || mMMSDataState == DataState.CONNECTED);
 
-        mCurrentState.roaming = isRoaming();
+        mCurrentState.roaming = isRoaming() && mRoamingIconAllowed;
         if (isCarrierNetworkChangeActive()) {
             mCurrentState.iconGroup = TelephonyIcons.CARRIER_NETWORK_CHANGE;
         } else if (isDataDisabled() && (!mConfig.alwaysShowDataRatIcon && !mAlwasyShowTypeIcon)) {
