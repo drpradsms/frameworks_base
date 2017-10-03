@@ -4990,6 +4990,15 @@ public final class Settings {
                 ANY_INTEGER_VALIDATOR;
 
         /**
+         * @hide
+         */
+        public static final String OMNI_SHOW_BATTERY_IMAGE = "status_bar_show_battery_image";
+
+        /** @hide */
+        private static final Validator OMNI_SHOW_BATTERY_IMAGE_VALIDATOR =
+                BOOLEAN_VALIDATOR;
+
+        /**
          * Whether to disable showing arrows in network traffic indicators
          * @hide
          */
@@ -5064,6 +5073,7 @@ public final class Settings {
             QS_LAYOUT_ROWS_LANDSCAPE,
             QS_QUICKBAR_COLUMNS,
             USE_OLD_MOBILETYPE,
+            OMNI_SHOW_BATTERY_IMAGE,
         };
 
         /**
@@ -5255,6 +5265,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(QS_TILE_HIDE_TITLE);
             PRIVATE_SETTINGS.add(QS_QUICKBAR_COLUMNS);
             PRIVATE_SETTINGS.add(USE_OLD_MOBILETYPE);
+            PRIVATE_SETTINGS.add(OMNI_SHOW_BATTERY_IMAGE);
         }
 
         /**
@@ -5415,6 +5426,7 @@ public final class Settings {
             VALIDATORS.put(QS_LAYOUT_ROWS_LANDSCAPE, QS_LAYOUT_ROWS_LANDSCAPE_VALIDATOR);
             VALIDATORS.put(QS_QUICKBAR_COLUMNS, QS_QUICKBAR_COLUMNS_VALIDATOR);
             VALIDATORS.put(USE_OLD_MOBILETYPE, USE_OLD_MOBILETYPE_VALIDATOR);
+            VALIDATORS.put(OMNI_SHOW_BATTERY_IMAGE, OMNI_SHOW_BATTERY_IMAGE_VALIDATOR);
         }
 
         /**

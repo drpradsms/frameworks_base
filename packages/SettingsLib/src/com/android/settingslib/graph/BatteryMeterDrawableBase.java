@@ -498,4 +498,8 @@ public class BatteryMeterDrawableBase extends Drawable {
     protected float getRadiusRatio() {
         return RADIUS_RATIO;
     }
+
+    public int getPowersaveColor() {
+        return mPowersavePaint.getColor();
+    }
 }
