@@ -390,7 +390,7 @@ public class FiveGServiceClient {
         }
     }
 
-    @VisibleForTesting
+/**    @VisibleForTesting
     void update5GIcon(FiveGServiceState state,int phoneId) {
         if ( state.mNrConfigType == NrConfigType.SA_CONFIGURATION ) {
             state.mIconGroup = getSaIcon(state);
@@ -400,6 +400,7 @@ public class FiveGServiceClient {
             state.mIconGroup = TelephonyIcons.UNKNOWN;
         }
     }
+
 
     private MobileIconGroup getSaIcon(FiveGServiceState state) {
         if ( state.mBearerAllocationStatus > BearerAllocationStatus.NOT_ALLOCATED ) {
@@ -421,7 +422,7 @@ public class FiveGServiceClient {
         }
         return iconGroup;
     }
-
+**/
     private void notifyMonitorCallback() {
         for (int i = 0; i < mKeyguardUpdateMonitorCallbacks.size(); i++) {
             KeyguardUpdateMonitorCallback cb = mKeyguardUpdateMonitorCallbacks.get(i).get();
@@ -545,7 +546,7 @@ public class FiveGServiceClient {
             if (status.get() == Status.SUCCESS) {
                 FiveGServiceState state = getCurrentServiceState(slotId);
                 state.mBearerAllocationStatus = bearerStatus.get();
-                update5GIcon(state, slotId);
+             /**   update5GIcon(state, slotId); **/
                 notifyListenersIfNecessary(slotId);
             }
 
@@ -576,7 +577,7 @@ public class FiveGServiceClient {
             if (status.get() == Status.SUCCESS) {
                 FiveGServiceState state = getCurrentServiceState(slotId);
                 state.mNrConfigType = nrConfigType.get();
-                update5GIcon(state, slotId);
+              /**  update5GIcon(state, slotId); **/
                 notifyListenersIfNecessary(slotId);
             }
         }
@@ -590,7 +591,7 @@ public class FiveGServiceClient {
             if (status.get() == Status.SUCCESS) {
                 FiveGServiceState state = getCurrentServiceState(slotId);
                 state.mNrIconType = nrIconType.get();
-                update5GIcon(state, slotId);
+               /** update5GIcon(state, slotId); **/
                 notifyListenersIfNecessary(slotId);
             }
         }

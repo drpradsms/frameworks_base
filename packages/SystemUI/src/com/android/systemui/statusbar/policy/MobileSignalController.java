@@ -290,9 +290,6 @@ public class MobileSignalController extends SignalController<
                     TelephonyIcons.UNKNOWN);
             mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_EDGE, TelephonyIcons.E);
             if (mShow2GForCDMA_1x) {
-                mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_CDMA, TelephonyIcons.TWO_G);
-                mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_1xRTT, TelephonyIcons.TWO_G);
-            }else {
                 mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_CDMA, TelephonyIcons.ONE_X);
                 mNetworkToIconLookup.put(TelephonyManager.NETWORK_TYPE_1xRTT, TelephonyIcons.ONE_X);
             }
@@ -950,7 +947,7 @@ public class MobileSignalController extends SignalController<
 
     static class MobileIconGroup extends SignalController.IconGroup {
         final int mDataContentDescription; // mContentDescriptionDataType
-        final int mDataType;
+        int mDataType;
         final boolean mIsWide;
         final int mQsDataType;
 
