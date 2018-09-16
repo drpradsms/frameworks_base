@@ -61,6 +61,7 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
     private View mMobileRoamingSpace;
     private int mVisibleState = -1;
     private ImageView mVolte;
+    private boolean mMobileTypeStyleOld;
 
     public static StatusBarMobileView fromContext(Context context, String slot) {
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -102,9 +103,10 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
     }
 
     private void init() {
+        mMobileTypeStyleOld = StatusBar.USE_OLD_MOBILETYPE;
         mMobileGroup = findViewById(R.id.mobile_group);
         mMobile = findViewById(R.id.mobile_signal);
-        mMobileType = findViewById(StatusBar.USE_OLD_MOBILETYPE ? R.id.mobile_type_old : R.id.mobile_type);
+        mMobileType = findViewById(mMobileTypeStyleOld ? R.id.mobile_type_old : R.id.mobile_type);
         mMobileRoaming = findViewById(R.id.mobile_roaming);
         mMobileRoamingSpace = findViewById(R.id.mobile_roaming_space);
         mIn = findViewById(R.id.mobile_in);
@@ -119,18 +121,11 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
     }
 
     private void updateMobileTypeView(boolean useOldStyle) {
+        mMobileTypeStyleOld = useOldStyle;
         int visOld = mMobileType.getVisibility();
         mMobileType.setVisibility(View.GONE);
         mMobileType = findViewById(useOldStyle ? R.id.mobile_type_old : R.id.mobile_type);
         mMobileType.setVisibility(visOld);
-        int wideTypeIconStartPadding = mContext.getResources().getDimensionPixelSize(R.dimen.wide_type_icon_start_padding);
-        mMobile.setPaddingRelative(
-          useOldStyle &&
-          mState.typeId != 0 &&
-          mState.typeId != R.drawable.stat_sys_data_fully_connected_g &&
-          mState.typeId != R.drawable.stat_sys_data_fully_connected_e &&
-          mState.typeId != R.drawable.stat_sys_data_fully_connected_h
-            ? wideTypeIconStartPadding : 0, 0, 0, 0);
     }
 
     private void initDotView() {
@@ -156,7 +151,9 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
             return;
         }
 
-        updateMobileTypeView(StatusBar.USE_OLD_MOBILETYPE);
+        if (mMobileTypeStyleOld != StatusBar.USE_OLD_MOBILETYPE) {
+            updateMobileTypeView(StatusBar.USE_OLD_MOBILETYPE);
+        }
 
         if (!mState.equals(state)) {
             updateState(state.copy());
@@ -176,7 +173,9 @@ public class StatusBarMobileView extends FrameLayout implements DarkReceiver,
     }
 
     private void initViewState() {
-        updateMobileTypeView(StatusBar.USE_OLD_MOBILETYPE);
+        if (mMobileTypeStyleOld != StatusBar.USE_OLD_MOBILETYPE) {
+            updateMobileTypeView(StatusBar.USE_OLD_MOBILETYPE);
+        }
         setContentDescription(mState.contentDescription);
         if (!mState.visible || !mState.provisioned) {
             mMobileGroup.setVisibility(View.GONE);
