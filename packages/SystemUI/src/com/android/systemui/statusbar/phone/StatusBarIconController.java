@@ -46,6 +46,7 @@ import com.android.systemui.statusbar.phone.StatusBarSignalPolicy.MobileIconStat
 import com.android.systemui.statusbar.phone.StatusBarSignalPolicy.WifiIconState;
 import com.android.systemui.statusbar.policy.DarkIconDispatcher;
 import com.android.systemui.statusbar.policy.DarkIconDispatcher.DarkReceiver;
+import com.android.systemui.statusbar.policy.NetworkTraffic;
 import com.android.systemui.util.Utils.DisableStateTracker;
 import java.util.List;
 
@@ -314,7 +315,7 @@ public interface StatusBarIconController {
 
         private NetworkTraffic onCreateNetworkTraffic(String slot) {
             NetworkTraffic view = new NetworkTraffic(mContext);
-            view.setPadding(2, 0, 2, 0);
+            view.setPadding(4, 0, 4, 0);
             return view;
         }
 

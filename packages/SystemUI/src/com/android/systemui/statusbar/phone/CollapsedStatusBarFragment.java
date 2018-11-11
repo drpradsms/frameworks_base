@@ -72,9 +72,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     private View mOperatorNameFrame;
     private boolean mIsClockBlacklisted;
 
-    // network traffic
-    private View mNetworkTraffic;
-    private int mShowNetworkTraffic;
     private final Handler mHandler = new Handler();
 
     private class SettingsObserver extends ContentObserver {
@@ -82,11 +79,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
            super(handler);
        }
 
-       void observe() {
-         mContentResolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.NETWORK_TRAFFIC_STATE),
-                    false, this, UserHandle.USER_ALL);
-       }
 
        @Override
        public void onChange(boolean selfChange) {
@@ -135,7 +127,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         Dependency.get(StatusBarIconController.class).addIconGroup(mDarkIconManager);
         mSystemIconArea = mStatusBar.findViewById(R.id.system_icon_area);
         mClockView = mStatusBar.findViewById(R.id.clock);
-        mNetworkTraffic = mStatusBar.findViewById(R.id.networkTraffic);
         updateSettings(false);
         showSystemIconArea(false);
         showClock(false);
@@ -271,7 +262,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 
     public void showSystemIconArea(boolean animate) {
         animateShow(mSystemIconArea, animate);
-        updateNetworkTraffic(animate);
     }
 
     public void hideClock(boolean animate) {
@@ -313,14 +303,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         }
     }
 
-
-    public void updateNetworkTraffic(boolean animate) {
-        if (mNetworkTraffic != null) {
-            if (mShowNetworkTraffic != 0) {
-                animateShow(mNetworkTraffic, animate);
-            }
-        }
-    }
 
     /**
      * Animate a view to INVISIBLE or GONE
@@ -397,13 +379,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
             ViewStub stub = mStatusBar.findViewById(R.id.operator_name);
             mOperatorNameFrame = stub.inflate();
         }
-    }
-
-    public void updateSettings(boolean animate) {
-        mShowNetworkTraffic = Settings.System.getIntForUser(mContentResolver,
-                Settings.System.NETWORK_TRAFFIC_STATE, 0,
-                UserHandle.USER_CURRENT);
-        updateNetworkTraffic(animate);
     }
 
 }
