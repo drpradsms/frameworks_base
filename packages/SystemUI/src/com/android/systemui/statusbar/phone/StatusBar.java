@@ -5489,6 +5489,7 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
                 updateTheme();
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.USE_OLD_MOBILETYPE))) {
+                setOldMobileType();
                 mCommandQueue.restartUI();
             }
         }
@@ -5498,11 +5499,7 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
             updateNavigationBar(false, false);
             updateCutoutOverlay();
             updateDarkThemeStyle();
-            ContentResolver resolver = mContext.getContentResolver();
-            USE_OLD_MOBILETYPE = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.USE_OLD_MOBILETYPE, 0,
-                    UserHandle.USER_CURRENT) != 0;
-            TelephonyIcons.updateIcons(USE_OLD_MOBILETYPE);
+            setOldMobileType();
         }
     }
 
@@ -5552,6 +5549,13 @@ public class StatusBar extends SystemUI implements DemoMode, TunerService.Tunabl
                   }
            }
         }
+    }
+
+    private void setOldMobileType() {
+        USE_OLD_MOBILETYPE = Settings.System.getIntForUser(mContext.getContentResolver(),
+                Settings.System.USE_OLD_MOBILETYPE, 0,
+                UserHandle.USER_CURRENT) != 0;
+        TelephonyIcons.updateIcons(USE_OLD_MOBILETYPE);
     }
 
     private final BroadcastReceiver mBannerActionBroadcastReceiver = new BroadcastReceiver() {
