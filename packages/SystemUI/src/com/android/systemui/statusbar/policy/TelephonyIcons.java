@@ -634,6 +634,7 @@ public class TelephonyIcons {
         if (DEBUG) {
             Log.d(tag, str);
         }
+    }
 
     public static void updateIcons(boolean useOldStyle) {
         TelephonyIcons.ICON_LTE = LTE.mDataType = useOldStyle ? R.drawable.stat_sys_data_fully_connected_lte : R.drawable.ic_lte_mobiledata;

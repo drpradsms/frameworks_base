@@ -401,6 +401,8 @@ public class FiveGServiceClient {
         }
     }
 
+
+/**
     private MobileIconGroup getSaIcon(FiveGServiceState state) {
         if ( state.mBearerAllocationStatus > BearerAllocationStatus.NOT_ALLOCATED ) {
             return TelephonyIcons.FIVE_G_SA;
@@ -421,7 +423,7 @@ public class FiveGServiceClient {
         }
         return iconGroup;
     }
-
+**/
     private void notifyMonitorCallback() {
         for (int i = 0; i < mKeyguardUpdateMonitorCallbacks.size(); i++) {
             KeyguardUpdateMonitorCallback cb = mKeyguardUpdateMonitorCallbacks.get(i).get();
