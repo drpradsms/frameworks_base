@@ -390,7 +390,7 @@ public class FiveGServiceClient {
         }
     }
 
-    @VisibleForTesting
+/**    @VisibleForTesting
     void update5GIcon(FiveGServiceState state,int phoneId) {
         if ( state.mNrConfigType == NrConfigType.SA_CONFIGURATION ) {
             state.mIconGroup = getSaIcon(state);
@@ -402,7 +402,6 @@ public class FiveGServiceClient {
     }
 
 
-/**
     private MobileIconGroup getSaIcon(FiveGServiceState state) {
         if ( state.mBearerAllocationStatus > BearerAllocationStatus.NOT_ALLOCATED ) {
             return TelephonyIcons.FIVE_G_SA;
