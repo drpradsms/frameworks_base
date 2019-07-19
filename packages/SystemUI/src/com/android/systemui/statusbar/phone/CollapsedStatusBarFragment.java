@@ -72,18 +72,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
     private View mOperatorNameFrame;
     private boolean mIsClockBlacklisted;
 
-    private final Handler mHandler = new Handler();
-
-    private class SettingsObserver extends ContentObserver {
-       SettingsObserver(Handler handler) {
-           super(handler);
-       }
-
-
-       @Override
-       public void onChange(boolean selfChange) {
-           updateSettings(true);
-       }
     }
     private SettingsObserver mSettingsObserver = new SettingsObserver(mHandler);
     private ContentResolver mContentResolver;
@@ -105,7 +93,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
 
         Dependency.get(TunerService.class).addTunable(this,
                 StatusBarIconController.ICON_BLACKLIST);
-        mSettingsObserver.observe();
     }
 
     @Override
@@ -127,7 +114,6 @@ public class CollapsedStatusBarFragment extends Fragment implements CommandQueue
         Dependency.get(StatusBarIconController.class).addIconGroup(mDarkIconManager);
         mSystemIconArea = mStatusBar.findViewById(R.id.system_icon_area);
         mClockView = mStatusBar.findViewById(R.id.clock);
-        updateSettings(false);
         showSystemIconArea(false);
         showClock(false);
         initEmergencyCryptkeeperText();
