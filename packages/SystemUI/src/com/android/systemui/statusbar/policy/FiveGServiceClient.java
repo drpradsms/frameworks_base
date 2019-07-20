@@ -546,7 +546,7 @@ public class FiveGServiceClient {
             if (status.get() == Status.SUCCESS) {
                 FiveGServiceState state = getCurrentServiceState(slotId);
                 state.mBearerAllocationStatus = bearerStatus.get();
-                update5GIcon(state, slotId);
+             /**   update5GIcon(state, slotId); **/
                 notifyListenersIfNecessary(slotId);
             }
 
@@ -577,7 +577,7 @@ public class FiveGServiceClient {
             if (status.get() == Status.SUCCESS) {
                 FiveGServiceState state = getCurrentServiceState(slotId);
                 state.mNrConfigType = nrConfigType.get();
-                update5GIcon(state, slotId);
+              /**  update5GIcon(state, slotId); **/
                 notifyListenersIfNecessary(slotId);
             }
         }
@@ -591,7 +591,7 @@ public class FiveGServiceClient {
             if (status.get() == Status.SUCCESS) {
                 FiveGServiceState state = getCurrentServiceState(slotId);
                 state.mNrIconType = nrIconType.get();
-                update5GIcon(state, slotId);
+               /** update5GIcon(state, slotId); **/
                 notifyListenersIfNecessary(slotId);
             }
         }
