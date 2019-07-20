@@ -28,7 +28,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static com.android.systemui.statusbar.phone.StatusBarIconController.TAG_PRIMARY;
-import com.android.systemui.statusbar.NetworkTraffic;
+import com.android.systemui.statusbar.policy.NetworkTraffic;
 
 public class StatusBarIconList {
     private ArrayList<Slot> mSlots = new ArrayList<>();
