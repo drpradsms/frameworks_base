@@ -47,9 +47,7 @@ public class StatusBarTuner extends PreferenceFragment {
         if (isWifiOnly()) {
             getPreferenceScreen().removePreference(mShowFourG);
             getPreferenceScreen().removePreference(mShowVoLTE);
-        }else if (!isNotchHidden()) {
-            getPreferenceScreen().removePreference(mShowVoLTE);
-        } else {
+        }else {
             mShowFourG.setChecked(Settings.System.getIntForUser(getActivity().getContentResolver(),
                 Settings.System.SHOW_FOURG,
                 getActivity().getResources().getBoolean(R.bool.config_show4GForLTE) ? 1 : 0,
@@ -108,12 +106,4 @@ public class StatusBarTuner extends PreferenceFragment {
         return (cm != null && cm.isNetworkSupported(ConnectivityManager.TYPE_MOBILE) == false);
     }
 
-    private boolean isNotchHidden(){
-        if (getActivity().getResources().getBoolean(com.android.internal.R.bool.config_physicalDisplayCutout)){
-            return Settings.System.getIntForUser(getActivity().getContentResolver(),
-                Settings.System.DISPLAY_CUTOUT_HIDDEN, 0, UserHandle.USER_CURRENT) == 1;
-        }else{
-            return true;
-        }
-    }
 }

@@ -108,7 +108,6 @@ public class MobileSignalController extends SignalController<
     // 4G instead of LTE
     private int mShow4GUserConfig;
     private boolean mVoLTEicon;
-    private boolean mHasNotch;
 
     private boolean mRoamingIconAllowed;
 
@@ -137,7 +136,6 @@ public class MobileSignalController extends SignalController<
         mAlwasyShowTypeIcon = context.getResources().getBoolean(R.bool.config_alwaysShowTypeIcon);
         mShow2GForCDMA_1x = context.getResources().getBoolean(R.bool.config_show2GforCDMA_1X);
         mHideNoInternetState = context.getResources().getBoolean(R.bool.config_hideNoInternetState);
-        mHasNotch = context.getResources().getBoolean(com.android.internal.R.bool.config_physicalDisplayCutout);
 
         mapIconSets();
 
@@ -426,7 +424,7 @@ public class MobileSignalController extends SignalController<
         int resId = 0;
         int voiceNetTye = getVoiceNetworkType();
 
-        if (!mVoLTEicon || !isNotchHidden()) {
+        if (!mVoLTEicon) {
             return 0;
         }
 
@@ -1053,12 +1051,4 @@ public class MobileSignalController extends SignalController<
         }
     }
 
-    private boolean isNotchHidden(){
-        if (mHasNotch){
-            return Settings.System.getIntForUser(mContext.getContentResolver(),
-                Settings.System.DISPLAY_CUTOUT_HIDDEN, 0, UserHandle.USER_CURRENT) == 1;
-        }else{
-            return true;
-        }
-    }
 }
